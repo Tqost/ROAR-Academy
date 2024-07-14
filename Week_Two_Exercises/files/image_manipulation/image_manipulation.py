@@ -12,7 +12,7 @@ lenna_image_data = image.imread(lenna_image)
 edited_image_data = lenna_image_data.copy()
 
 edited_image_data[
-    : usa_image_data.shape[0], lenna_image_data.shape[1] - usa_image_data.shape[1] :
+    : usa_image_data.shape[0], lenna_image_data.shape[1] - usa_image_data.shape[1]:
 ] = (255 * usa_image_data)
 
 print(f"Image type is {type(usa_image_data)}")
