@@ -8,8 +8,10 @@ def set_array(L, rows, cols, order):
         raise TypeError("Rows and cols must be integers")
     if order not in ["F", "C"]:
         raise TypeError('Order must be "F" or "C"')
+    if rows * cols != len(L):
+        raise TypeError("List is less than or greater than amount of spaces in array")
     array = np.array(L)
-    array = np.reshape(array, (3, 3), order)
+    array = np.reshape(array, (cols, rows), order)
     return array
 
 
