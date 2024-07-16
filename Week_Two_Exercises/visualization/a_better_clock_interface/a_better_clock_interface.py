@@ -1,26 +1,34 @@
-from datetime import datetime, timezone
-import matplotlib.pyplot as plt
 import os
+from datetime import datetime, timezone
 import numpy as np
-import time
+import matplotlib.pyplot as plt
 
 # Initialization, define some constant
 path = os.path.dirname(os.path.abspath(__file__))
 filename = path + "/clock_background.png"
 background = plt.imread(filename)
 
-second_hand_length = 200
-second_hand_width = 2
-minute_hand_length = 150
-minute_hand_width = 3
-hour_hand_length = 100
-hour_hand_width = 5
-gmt_hand_length = 150
-gmt_hand_width = 3
+SECOND_HAND_LENGTH = 200
+SECOND_HAND_WIDTH = 2
+MINUTE_HAND_LENGTH = 150
+MINUTE_HAND_WIDTH = 3
+HOUR_HAND_LENGTH = 100
+HOUR_HAND_WIDTH = 5
+GMT_HAND_LENGTH = 150
+GMT_HAND_WIDTH = 3
 center = np.array([256, 256])
 
 
 def clock_hand_vector(angle, length):
+    """Generates a numpy array for the coordinate to go to.
+
+    Args:
+        angle (int or float): Angle of the required vector
+        length (int or float): Length of the clock hand
+
+    Returns:
+        np.ndarray: Gives an array of length 2
+    """
     return np.array([length * np.sin(angle), -length * np.cos(angle)])
 
 
@@ -46,24 +54,24 @@ while True:
     # Calculate end points of hour, minute, second
 
     hour_vector = clock_hand_vector(
-        (hour / 12 * 2 * np.pi) + ((minute / 60 * 2 * np.pi) / 12), hour_hand_length
+        (hour / 12 * 2 * np.pi) + ((minute / 60 * 2 * np.pi) / 12), HOUR_HAND_LENGTH
     )
     minute_vector = clock_hand_vector(
-        (minute / 60 * 2 * np.pi) + ((second / 60 * 2 * np.pi) / 60), minute_hand_length
+        (minute / 60 * 2 * np.pi) + ((second / 60 * 2 * np.pi) / 60), MINUTE_HAND_LENGTH
     )
-    second_vector = clock_hand_vector(second / 60 * 2 * np.pi, second_hand_length)
+    second_vector = clock_hand_vector(second / 60 * 2 * np.pi, SECOND_HAND_LENGTH)
     gmt_vector = clock_hand_vector(
         (gmt_hour / 24 * 2 * np.pi)
         + ((gmt_minute / 120 * 2 * np.pi) / 12)
         + ((gmt_second / 7200 * 2 * np.pi) / 720),
-        gmt_hand_length,
+        GMT_HAND_LENGTH,
     )
     plt.arrow(
         center[0],
         center[1],
         hour_vector[0],
         hour_vector[1],
-        linewidth=hour_hand_width,
+        linewidth=HOUR_HAND_WIDTH,
         color="black",
     )
     plt.arrow(
@@ -71,7 +79,7 @@ while True:
         center[1],
         minute_vector[0],
         minute_vector[1],
-        linewidth=minute_hand_width,
+        linewidth=MINUTE_HAND_WIDTH,
         color="black",
     )
     plt.arrow(
@@ -79,7 +87,7 @@ while True:
         center[1],
         second_vector[0],
         second_vector[1],
-        linewidth=second_hand_width,
+        linewidth=SECOND_HAND_WIDTH,
         color="red",
     )
     plt.arrow(
@@ -87,7 +95,7 @@ while True:
         center[1],
         gmt_vector[0],
         gmt_vector[1],
-        linewidth=gmt_hand_width,
+        linewidth=GMT_HAND_WIDTH,
         color="yellow",
     )
 
